@@ -48,6 +48,6 @@ EditorBuildSettings:
     path: 
     guid: 8db8e743ecdacbc4a9b0b56f00dfedf4
   - enabled: 1
-    path: Assets/try.unity
+    path: Assets/2DGamekit/Scenes/try.unity
     guid: a8825e268b05a443e808a908d32f14c2
   m_configObjects: {}
