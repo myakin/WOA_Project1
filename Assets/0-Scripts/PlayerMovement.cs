@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private float multiplier = 1f;
     private bool isJumping;
     private float translationMultiplier=1;
+    private float preJumpMultiplier;
 
     private void Start() {
         animator = GetComponent<Animator>();
@@ -33,7 +34,11 @@ public class PlayerMovement : MonoBehaviour
             translationMultiplier = 1f;
         }
         animator.SetFloat("move", hor);
-        if (multiplier==1) {
+
+        if (isJumping)
+            translationMultiplier = preJumpMultiplier;
+
+        if (multiplier==1) { 
             transform.position += transform.right * (hor * walkRate * translationMultiplier);
         } else {
             transform.position += transform.right * (hor * runRate * translationMultiplier);
@@ -46,28 +51,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isJumping && Input.GetKeyDown(KeyCode.Space)) {
             isJumping = true;
+            transform.SetParent(null);
+            preJumpMultiplier=multiplier;
             GetComponent<Rigidbody>().AddForce(transform.up * jumpStrength);
             animator.SetTrigger("jump");
         }
-        
-        
+    }
 
-        // muratyakin@muratyakin.com
-
-        // if (Input.GetKey(KeyCode.D)) {
-        //     animator.SetBool("isWalking", true);
-        // }
-        // if (Input.GetKey(KeyCode.A)) {
-        //     animator.SetBool("isWalkingLeft", true);
-        //     transform.rotation = Quaternion.Euler(0,180,0);
-        // }
-        // if (Input.GetKeyUp(KeyCode.D)) {
-        //     animator.SetBool("isWalking", false);
-        // }
-        // if (Input.GetKeyUp(KeyCode.A)) {
-        //     animator.SetBool("isWalkingLeft", false);
-        //      transform.rotation = Quaternion.Euler(0,0,0);
-        // }
+    private void OnCollisionEnter(Collision other) {
+        if (other.collider.tag == "MobilePlatform") {
+            transform.SetParent(other.transform);
+        } else {
+            transform.SetParent(null);
+        }
     }
 
 }
