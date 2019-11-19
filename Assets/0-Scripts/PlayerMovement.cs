@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isJumping && Input.GetKeyDown(KeyCode.Space)) {
             isJumping = true;
             transform.SetParent(null);
-            preJumpMultiplier=multiplier;
+            preJumpMultiplier=translationMultiplier;
             GetComponent<Rigidbody>().AddForce(transform.up * jumpStrength);
             animator.SetTrigger("jump");
         }
