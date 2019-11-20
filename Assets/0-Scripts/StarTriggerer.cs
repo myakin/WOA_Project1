@@ -6,8 +6,7 @@ public class StarTriggerer : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other) {
         if (other.tag=="Player") {
-            
-
+            GameController.gameController.IncreaseStarCount();
             Destroy(gameObject);
         }
     }

@@ -8,6 +8,9 @@ public class GameController : MonoBehaviour
     public static GameController gameController;
 
     public int numberOfLives = 5;
+    private int lastKnownNumberOfLives = 5;
+    public int starCount;
+    private int lastKnownStarCount;
     public List<string> itemsCollected = new List<string>();
 
     private void Awake() {
@@ -21,12 +24,31 @@ public class GameController : MonoBehaviour
         DontDestroyOnLoad(GameController.gameController.gameObject);
     }
 
-    #region SCENE MANAGEMENT
-    public void ReLoadCurrentScene() {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
+    private void Start() {
+        lastKnownNumberOfLives = numberOfLives;
+        lastKnownStarCount = starCount;
     }
 
+    #region SCENE MANAGEMENT
+    public void ReLoadCurrentScene() {
+        //DefreezeGame();
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.sceneLoaded += DefreezeGame;
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+    public void LoadNextScene() {
+        lastKnownNumberOfLives = numberOfLives;
+        lastKnownStarCount = starCount;
+        //DefreezeGame();
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneInex = currentSceneIndex + 1;
+        SceneManager.sceneLoaded += DefreezeGame;
+        SceneManager.LoadScene(nextSceneInex);
+    }
+    public int GetCurrentLevelNo() {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        return currentSceneIndex;
+    }
     #endregion
 
 
@@ -78,6 +100,51 @@ public class GameController : MonoBehaviour
     }
     public void EmptyItemsCollected() {
         itemsCollected.Clear();
+    }
+    public void IncreaseStarCount() {
+        starCount++;
+        SetStarCountVisual();
+    }
+    public void SetStarCount(int aNumber) {
+        starCount = aNumber;
+        SetStarCountVisual();
+    }
+    private void SetStarCountVisual() {
+        GameObject userInterface = GameObject.FindGameObjectWithTag("UserInterface");
+        userInterface.GetComponent<UIController>().SetStarCount(starCount);
+    }
+    public int GetStarCount() {
+        return starCount;
+    }
+    public int[] GetLastKnownStats() {
+        int[] returnValue = new int[2];
+        returnValue[0] = lastKnownNumberOfLives;
+        returnValue[1] = lastKnownStarCount;
+        return returnValue;
+    }
+    public void FreezeGame() {
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+        playerGO.GetComponent<PlayerMovement>().DisablePlayerMovement();
+        Time.timeScale = 0;
+    }
+    public void DefreezeGame(Scene scene, LoadSceneMode mode) {
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+        playerGO.GetComponent<PlayerMovement>().EnablePlayerMovement();
+
+        GameObject myUI = GameObject.FindGameObjectWithTag("UserInterface");
+        myUI.GetComponent<UIController>().UpdateCurrentLevelText();
+
+        Time.timeScale = 1;
+        SceneManager.sceneLoaded -= DefreezeGame;
+    }
+    public void DefreezeGame() {
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+        playerGO.GetComponent<PlayerMovement>().EnablePlayerMovement();
+        
+        GameObject myUI = GameObject.FindGameObjectWithTag("UserInterface");
+        myUI.GetComponent<UIController>().UpdateCurrentLevelText();
+        
+        Time.timeScale = 1;
     }
     #endregion
 
