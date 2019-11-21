@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,14 +22,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update() {
         if (!byPass) {
-            if (Input.GetKey(KeyCode.LeftShift)) {
+
+            // get input
+            // float hor = Input.GetAxis("Horizontal");
+            // bool shouldRun = Input.GetKey(KeyCode.LeftShift);
+            // bool shouldJump = Input.GetKeyDown(KeyCode.Space);
+
+            float hor = CrossPlatformInputManager.GetAxis("Horizontal");
+            float ver = CrossPlatformInputManager.GetAxis("Vertical");
+            bool shouldJump = CrossPlatformInputManager.GetButton("Jump");
+            
+            
+            
+            bool shouldRun = false;
+            if (ver>0)
+                shouldRun = true;
+            
+            //Debug.Log("shouldRun="+shouldRun + " ver="+ver+" hor="+hor);
+
+            // do things with input
+            if (shouldRun) {
                 multiplier = 2f;
             } else {
                 multiplier = 1f;
             }
-            
-            float hor = Input.GetAxis("Horizontal") * multiplier;
-            
+            hor *= multiplier;
+             
             if (hor<0) {
                 transform.rotation = Quaternion.Euler(0,180,0);
                 translationMultiplier = -1f;
@@ -51,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
                 isJumping = false;
             }
 
-            if (!isJumping && Input.GetKeyDown(KeyCode.Space)) {
+            if (!isJumping && shouldJump) {
                 isJumping = true;
                 transform.SetParent(null);
                 preJumpMultiplier=translationMultiplier;
