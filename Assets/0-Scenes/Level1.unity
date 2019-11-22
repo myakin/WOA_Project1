@@ -214,6 +214,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.6409502, y: 0.20489621, z: 0.2}
   m_Center: {x: 0.0076966286, y: -0.05792892, z: 0}
+--- !u!1 &74031546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8973541979818055660, guid: 4947ee2aad17243f1bd3caab298228f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8049022928058704715}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &113326808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,6 +2282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4be9be5e022458c8f96d646d55210d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dampeningFactor: 0.03
 --- !u!1 &1922532973
 GameObject:
   m_ObjectHideFlags: 0
@@ -2808,8 +2815,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7903613643521155300, guid: d73db28d5cb424c81bb147f08da4cddb,
+        type: 3}
+      propertyPath: followTarget
+      value: 
+      objectReference: {fileID: 74031546}
+    - target: {fileID: 7903613643521155300, guid: d73db28d5cb424c81bb147f08da4cddb,
+        type: 3}
+      propertyPath: byPass
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d73db28d5cb424c81bb147f08da4cddb, type: 3}
+--- !u!1 &1364259213337117924 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1364259212990443408, guid: d73db28d5cb424c81bb147f08da4cddb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1364259213337117923}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1364259213337117925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364259213337117924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8c576a06bea45df89abe28d0cec851, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1806757064051150105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3073,7 +3108,7 @@ PrefabInstance:
     - target: {fileID: 3253645036832778466, guid: 29fc07c08e9154cd4b020e15e5a08f8e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.1000061
+      value: -0.10003662
       objectReference: {fileID: 0}
     - target: {fileID: 3253645036832778466, guid: 29fc07c08e9154cd4b020e15e5a08f8e,
         type: 3}
@@ -3471,5 +3506,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8049022928690608877, guid: 4947ee2aad17243f1bd3caab298228f7,
+        type: 3}
+      propertyPath: cameraFollowDummy
+      value: 
+      objectReference: {fileID: 74031546}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4947ee2aad17243f1bd3caab298228f7, type: 3}

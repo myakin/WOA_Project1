@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public float walkRate;
     public float runRate;
     public float jumpStrength;
+    public GameObject cameraFollowDummy;
+    private Vector3 cameraFollowDummyOriginalPos;
     private bool byPass;
     private Animator animator;
     private float multiplier = 1f;
@@ -16,8 +18,10 @@ public class PlayerMovement : MonoBehaviour
     private float translationMultiplier=1;
     private float preJumpMultiplier;
 
+
     private void Start() {
         animator = GetComponent<Animator>();
+        cameraFollowDummyOriginalPos = cameraFollowDummy.transform.localPosition;
     }
 
     private void Update() {
@@ -49,12 +53,21 @@ public class PlayerMovement : MonoBehaviour
             hor *= multiplier;
              
             if (hor<0) {
-                transform.rotation = Quaternion.Euler(0,180,0);
-                translationMultiplier = -1f;
-            } else {
-                transform.rotation = Quaternion.Euler(0,0,0);
+                //transform.rotation = Quaternion.Euler(0,180,0);
+                GetComponent<SpriteRenderer>().flipX=true;
+                //translationMultiplier = -1f;
+                cameraFollowDummy.transform.localPosition = new Vector3(
+                    -cameraFollowDummyOriginalPos.x,
+                    cameraFollowDummyOriginalPos.y,
+                    cameraFollowDummyOriginalPos.z
+                );
+            } else  if (hor>0) {
+                //transform.rotation = Quaternion.Euler(0,0,0);
+                GetComponent<SpriteRenderer>().flipX=false;
                 translationMultiplier = 1f;
+                cameraFollowDummy.transform.localPosition = cameraFollowDummyOriginalPos;
             }
+            
             animator.SetFloat("move", hor);
 
             if (isJumping)

@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class CameraFollowTarget : MonoBehaviour
 {
-    private GameObject player;
-
-    void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player"); 
-    }
-
+    public  GameObject followTarget;
+    public float dampeningFactor = 0.01f;
     
-    void Update()
-    {
-        transform.position = new Vector3(
-                                            player.transform.position.x,
-                                            player.transform.position.y,
-                                            transform.position.z
-                                        );
+    private Vector3 offset;
+    
+    void Update() {
+        Vector3 newCamPos = new Vector3 (
+            followTarget.transform.position.x, 
+            followTarget.transform.position.y, 
+            transform.position.z);
+        SmoothMovemet(newCamPos);   
+    }
+    public void SmoothMovemet(Vector3 aTargetPosition) {
+        offset += aTargetPosition;
+        Vector3 oldPos = transform.position;
+        Vector3 newPos = Vector3.LerpUnclamped(oldPos, aTargetPosition, dampeningFactor);
+        transform.position = newPos;
+        offset -= newPos - oldPos;
     }
 }
